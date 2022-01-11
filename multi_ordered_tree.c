@@ -80,7 +80,6 @@ void tree_insert( tree_node_t *node, int index, tree_node_t **roots )
     else if (compare_tree_nodes (node,roots[index],index)>0)
         tree_insert(node,index, roots[index]->right);
  
-    /* return the (unchanged) Node pointer */
     return;
 }
 
@@ -132,13 +131,21 @@ int tree_depth( tree_node_t *root, int index )
 // root - arvore completa
 // index - tipo de dados
 //
+void print_dados(tree_node_t *root){
+  static int counter=1;
+  printf("Person #%d\n", counter++);
+  printf("  name ---------------%s\n",root->name);
+  printf("  zip code -----------%s\n", root-> zip_code);
+  printf("  telephone number ---%s\n",root->telephone_number);
+
+}
 
 void list(tree_node_t *root, int index)
 {
   if (root != NULL)
     {
         list(root->left[index], index);
-        printf("%s %s %s\n",root->name,root->zip_code,root->telephone_number);
+        print_dados(root);
         list(root->right[index], index);
     }
 }
