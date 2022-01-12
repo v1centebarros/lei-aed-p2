@@ -172,6 +172,14 @@ tree_node_t* desafio2( char zipcode[MAX_ZIP_CODE_SIZE+1], tree_node_t **roots){
   if (strcmp(zipcode,roots[2]->zip_code)==0)
   {
     tree_node_t* node = malloc(sizeof(tree_node_t));
+    memcpy(node,roots[2],sizeof(tree_node_t));
+    for(int i=0; i<4;i++){
+      node->left[i]=NULL;
+    }
+     for(int i=0; i<4;i++){
+      node->right[i]=NULL;
+    }
+
     if(node_left!=NULL){ 
       tree_insert(node_left,0,&node);
     } 
@@ -287,7 +295,7 @@ int main(int argc,char **argv)
       list(roots[main_index], main_index); // place your code here to traverse, in order, the tree with number main_index
     }else if(strncmp(argv[i],"-procura",8) == 0){
       char zipcode[MAX_ZIP_CODE_SIZE+1];
-      strcpy(zipcode,&(argv[i][5]));
+      strcpy(zipcode,argv[i+1]);
       printf("List of persons:\n");
       list(desafio2(zipcode,roots),0);
     }
