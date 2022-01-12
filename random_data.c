@@ -1933,3 +1933,14 @@ void random_telephone_number(char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1
     exit(1);
   }
 }
+
+void random_social_number(char social_number[MAX_SOCIAL_NUMBER_SIZE + 1])
+{
+  int n1 = aed_random() % 1000000000;
+
+  if(snprintf(social_number,MAX_SOCIAL_NUMBER_SIZE + 1,"%09d",n1) >= MAX_SOCIAL_NUMBER_SIZE + 1)
+  {
+    fprintf(stderr,"Social number too large (%09d) \n",n1);
+    exit(1);
+  }
+}
