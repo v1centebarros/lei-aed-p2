@@ -154,7 +154,43 @@ void list(tree_node_t *root, int index)
     }
 }
 
+/*
+retornar a pesssoa
+preciso dos zip code completos 
+preciso do nome que vou achar 
 
+*/
+tree_node_t* desafio2( char zipcode[MAX_ZIP_CODE_SIZE+1], tree_node_t **roots){
+  if (roots[2]==NULL){ 
+    return NULL;
+  }
+
+  tree_node_t* node_left=desafio2(zipcode, roots[2]->left);
+  tree_node_t* node_right=desafio2(zipcode, roots[2]->right);
+
+ //a condiçao so a feita por necessidade dos filhos
+  if (strcmp(zipcode,roots[2]->zip_code)==0)
+  {
+    tree_node_t* node = malloc(sizeof(tree_node_t));
+    if(node_left!=NULL){ 
+      tree_insert(node_left,0,&node);
+    } 
+    if(node_right!=NULL){ 
+      tree_insert(node_right,0,&node);
+    } 
+    return node;
+  }
+  if (node_left==NULL && node_right==NULL){ 
+    return NULL;
+  } else if (node_left == NULL){
+    return node_right;
+  } else if(node_right == NULL){
+    return node_left;
+  }else{
+    tree_insert(node_right,0,&node_left);
+    return node_left;
+  }
+}
 //
 // main program
 //
@@ -249,6 +285,11 @@ int main(int argc,char **argv)
         main_index = 3;
       printf("List of persons:\n");
       list(roots[main_index], main_index); // place your code here to traverse, in order, the tree with number main_index
+    }else if(strncmp(argv[i],"-procura",8) == 0){
+      char zipcode[MAX_ZIP_CODE_SIZE+1];
+      strcpy(zipcode,&(argv[i][5]));
+      printf("List of persons:\n");
+      list(desafio2(zipcode,roots),0);
     }
     // place your own options here
   }
