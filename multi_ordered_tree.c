@@ -230,6 +230,8 @@ int main(int argc,char **argv)
     fprintf(stderr,"Usage: %s student_number number_of_persons [options ...]\n",argv[0]);
     fprintf(stderr,"Recognized options:\n");
     fprintf(stderr,"  -list[N]              # list the tree contents, sorted by key index N (the default is index 0)\n");
+    fprintf(stderr,"  -search[N]    ----    # list the tree contents, sorted by key index N (the default is index 0)\n");
+
     // place a description of your own options here
     return 1;
   }
@@ -310,10 +312,10 @@ int main(int argc,char **argv)
         main_index = 3;
       printf("List of persons:\n");
       list(roots[main_index], main_index); // place your code here to traverse, in order, the tree with number main_index
+      
     }else if(strncmp(argv[i],"-search",7) == 0){
        // search all (optional)
         int main_index = atoi(&(argv[i][7]));
-        printf("%d \n", main_index);
         if(main_index < 0)
           main_index = 0;
         if(main_index > 3)
