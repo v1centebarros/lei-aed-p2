@@ -34,12 +34,6 @@ tree_node_t;
 
 //
 // the node comparison function (do not change this)
-/* 
-str1>str2 (>0)
-str1<str2 (<0)
-str1==str2 (0)
-*/
-
 int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 {
   int i,c;
@@ -64,15 +58,12 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 
 //
 // tree insertion routine (place your code here)
-//
-
 //index- tipo de dados pelo qual vou ordenar
 //roots- a arvore ja existente
 //node - novo nó
 void tree_insert( tree_node_t *node, int index, tree_node_t **roots )
 {
-   //ver se a raiz nao é nula, 
-   //no caso de ser null colocamos o nó na raiz
+   //ver se a raiz nao é nula, no caso de ser nula coloca-se o nó na raiz
     if (roots[index] == NULL){
       roots[index]=node;
       return;
@@ -83,23 +74,18 @@ void tree_insert( tree_node_t *node, int index, tree_node_t **roots )
     else if (compare_tree_nodes (node,roots[index],index)>0)
         tree_insert(node,index, roots[index]->right);
     else {
-      printf("Erro, dois nós iguais!");
+      printf("ERRO, dois nós iguais!");
       exit(1);
       }
  
     return;
 }
 
-
 //
-// tree search routine (place your code here)
-//
-
-/*
+/* tree search routine (place your code here)
 roots - arvore completa 
 index- pelo que é organizado
-node - nó para descobrir
-*/
+node - nó para descobrir */
 tree_node_t *find( tree_node_t *root, int index, tree_node_t node)
 {
   if (root==NULL){return NULL;}  
@@ -119,10 +105,7 @@ tree_node_t *find( tree_node_t *root, int index, tree_node_t node)
 root - arvore completa
 index - tipo de dados
 */
-
-int tree_depth( tree_node_t *root, int index )
-
-{
+int tree_depth( tree_node_t *root, int index ){
   if (root==NULL){return -1;}//returna -1 pois o valor na raiz é 0 
 
   int direito = tree_depth(root->right[index] , index);
@@ -131,14 +114,11 @@ int tree_depth( tree_node_t *root, int index )
   return (direito >esquerdo ? direito : esquerdo) + 1; // soma-se 1 pois a raiz é nivel zero
 }
 
-
 //
 // list, i,e, traverse the tree (place your code here)
 //imprimir a arvore
 // root - arvore completa
 // index - tipo de dados
-//
-
 void print_dados(tree_node_t *root){
   static int counter=1;
   printf("Person #%d\n", counter++);
@@ -159,16 +139,12 @@ void list(tree_node_t *root, int index)
 }
 
 /*
-retornar a pesssoa
-preciso dos zip code completos 
-preciso do nome que vou achar 
-
+  compare compara o no com os dados a ver se são exatamente iguais  (utiliza a função strcmp)
+  compare2 ve se os dados estão incluidos no nó (utiliza a função strstr)
 */
-
 int compare(char *dados,tree_node_t *node2,int main_idx)
 {
     int c;
-  
     if(main_idx == 0)
       c = strcmp(dados,node2->name);
     else if(main_idx == 1)
@@ -239,7 +215,6 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
 //
 // main program
 //
-
 int main(int argc,char **argv)
 {
   FILE *file=fopen("tempos.txt", "w"); 
@@ -256,7 +231,6 @@ int main(int argc,char **argv)
       fprintf(stderr,"Recognized options:\n");
       fprintf(stderr,"  -list[N]              # list the tree contents, sorted by key index N (the default is index 0)\n");
       fprintf(stderr,"  -search[N]    ----    # search the tree contents, sorted by key index N (the default is index 0)\n");
-
       // place a description of your own options here
       return 1;
     }
@@ -363,14 +337,12 @@ int main(int argc,char **argv)
         printf("Tree search time (index %d): %.3es\n",main_index,dt);
       fprintf(file,"%f ",dt);
       }
-      // place your own options here
     }
     fprintf(file,"%f ",dt);
-  fprintf(file, "\n");
-  printf("\n");
+    fprintf(file, "\n");
+    printf("\n");
     // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
     free(persons);
   }
-  
   return 0;
 }
