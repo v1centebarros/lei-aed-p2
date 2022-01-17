@@ -160,19 +160,36 @@ preciso dos zip code completos
 preciso do nome que vou achar 
 
 */
-tree_node_t* desafio2( char zipcode[MAX_ZIP_CODE_SIZE+1], tree_node_t **roots){
-  if (roots[2]==NULL){ 
+
+int compare(char *dados,tree_node_t *node2,int main_idx)
+{
+    int c;
+  
+    if(main_idx == 0)
+      c = strcmp(dados,node2->name);
+    else if(main_idx == 1)
+      c = strcmp(dados,node2->zip_code);
+    else if(main_idx == 2)
+      c = strcmp(dados,node2->telephone_number);
+    else
+      c = strcmp(dados,node2->social_number);
+
+  return c;
+}
+
+tree_node_t* search( char *dados, tree_node_t **roots, int index){
+  if (roots[index]==NULL){ 
     return NULL;
   }
 
-  tree_node_t* node_left=desafio2(zipcode, roots[2]->left);
-  tree_node_t* node_right=desafio2(zipcode, roots[2]->right);
+  tree_node_t* node_left=search(dados, roots[index]->left, index);
+  tree_node_t* node_right=search(dados, roots[index]->right, index);
 
- //a condiçao so a feita por necessidade dos filhos
-  if (strcmp(zipcode,roots[2]->zip_code)==0)
+ //a condiçao so a feita por necessidade dos filho
+  if (compare(dados,roots[index],index)==0)
   {
     tree_node_t* node = malloc(sizeof(tree_node_t));
-    memcpy(node,roots[2],sizeof(tree_node_t));
+    memcpy(node,roots[index],sizeof(tree_node_t));
     for(int i=0; i<4;i++){
       node->left[i]=NULL;
     }
@@ -293,11 +310,18 @@ int main(int argc,char **argv)
         main_index = 3;
       printf("List of persons:\n");
       list(roots[main_index], main_index); // place your code here to traverse, in order, the tree with number main_index
-    }else if(strncmp(argv[i],"-procura",8) == 0){
-      char zipcode[MAX_ZIP_CODE_SIZE+1];
-      strcpy(zipcode,argv[i+1]);
+    }else if(strncmp(argv[i],"-search",7) == 0){
+       // search all (optional)
+        int main_index = atoi(&(argv[i][7]));
+        printf("%d \n", main_index);
+        if(main_index < 0)
+          main_index = 0;
+        if(main_index > 3)
+          main_index = 3;
+
+      char *dados = argv[i+1];
       printf("List of persons:\n");
-      list(desafio2(zipcode,roots),0);
+      list(search(dados,roots,main_index),0);
     }
     // place your own options here
   }
