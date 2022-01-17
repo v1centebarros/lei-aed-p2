@@ -222,8 +222,9 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
 
 int main(int argc,char **argv)
 {
-  double dt; //tempo
+  FILE *file=fopen("resultados.txt", "w"); 
 
+  double dt; //tempo
   // process the command line arguments
   if(argc < 3)
   {
@@ -276,6 +277,7 @@ int main(int argc,char **argv)
        tree_insert(&persons[i], main_index, roots); // place your code here to insert &(persons[i]) in the tree with number main_index
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+  fprintf(file,"%f ",dt);
   //search the tree
   for(int main_index = 0;main_index < 4;main_index++)
   {
@@ -291,6 +293,7 @@ int main(int argc,char **argv)
     }
     dt = cpu_time() - dt;
     printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
+    fprintf(file,"%f ",dt);
   }
   // compute the largest tree depdth
   for(int main_index = 0;main_index < 4;main_index++)
@@ -299,6 +302,7 @@ int main(int argc,char **argv)
     int depth = tree_depth(roots[main_index], main_index ); // place your code here to compute the depth of the tree with number main_index
     dt = cpu_time() - dt;
     printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+    fprintf(file,"%f ",dt);
   }
   // process the command line optional arguments
   for(int i = 3;i < argc;i++)
@@ -324,12 +328,15 @@ int main(int argc,char **argv)
       char *dados = argv[i+1];
       printf("List of persons:\n");
       dt = cpu_time();
-      list(search(dados,roots,main_index),0);
+      tree_node_t* n = search(dados,roots,main_index);
       dt=cpu_time()-dt;
-       printf("Tree search time (index %d): %.3es\n",main_index,dt);
+      list(n,0);
+      printf("Tree search time (index %d): %.3es\n",main_index,dt);
+     fprintf(file,"%f ",dt);
     }
     // place your own options here
   }
+  fprintf(file,"%f ",dt);
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
   free(persons);
   return 0;
