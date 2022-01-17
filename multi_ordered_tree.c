@@ -82,6 +82,10 @@ void tree_insert( tree_node_t *node, int index, tree_node_t **roots )
         tree_insert(node,index, roots[index]->left);
     else if (compare_tree_nodes (node,roots[index],index)>0)
         tree_insert(node,index, roots[index]->right);
+    else {
+      printf("Erro, dois nós iguais!");
+      exit(1);
+      }
  
     return;
 }
@@ -119,7 +123,7 @@ index - tipo de dados
 int tree_depth( tree_node_t *root, int index )
 
 {
-  if (root==NULL){return 0;}
+  if (root==NULL){return -1;}//returna -1 pois o valor na raiz é 0 
 
   int direito = tree_depth(root->right[index] , index);
   int esquerdo =tree_depth(root->left[index] , index);
@@ -177,6 +181,22 @@ int compare(char *dados,tree_node_t *node2,int main_idx)
   return c;
 }
 
+int compare2(char *dados,tree_node_t *node2,int main_idx)
+{
+    char* c;
+  
+    if(main_idx == 0)
+      c = strstr(node2->name,dados);
+    else if(main_idx == 1)
+      c = strstr(node2->zip_code,dados);
+    else if(main_idx == 2)
+      c = strstr(node2->telephone_number,dados);
+    else
+      c = strstr(node2->social_number,dados);
+
+  return c==NULL;
+}
+
 tree_node_t* search( char *dados, tree_node_t **roots, int index){
   if (roots[index]==NULL){ 
     return NULL;
@@ -186,7 +206,7 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
   tree_node_t* node_right=search(dados, roots[index]->right, index);
 
  //a condiçao so a feita por necessidade dos filho
-  if (compare(dados,roots[index],index)==0)
+  if (compare2(dados,roots[index],index)==0)
   {
     tree_node_t* node = malloc(sizeof(tree_node_t));
     memcpy(node,roots[index],sizeof(tree_node_t));
@@ -222,9 +242,10 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
 
 int main(int argc,char **argv)
 {
-  FILE *file=fopen("resultados.txt", "w"); 
+  FILE *file=fopen("tempos.txt", "w"); 
+  FILE *file2=fopen("profundidade.txt", "w"); 
 
-  double dt; //tempo
+  double dt,dt2; //tempo
   // process the command line arguments
   if(argc < 3)
   {
@@ -268,13 +289,20 @@ int main(int argc,char **argv)
   // create the ordered binary trees
   dt = cpu_time();
   tree_node_t *roots[4]; // three indices, three roots
-
+  
   //main_index-- corresponde ao tipo de dado
   for(int main_index = 0;main_index < 4;main_index++)
     roots[main_index] = NULL;
-  for(int i = 0;i < n_persons;i++)
-    for(int main_index = 0;main_index < 4;main_index++)
-       tree_insert(&persons[i], main_index, roots); // place your code here to insert &(persons[i]) in the tree with number main_index
+  for(int i = 0;i < n_persons;i++){
+    dt2=cpu_time(); 
+    for(int main_index = 0;main_index < 4;main_index++){
+      tree_insert(&persons[i], main_index, roots); // place your code here to insert &(persons[i]) in the tree with number main_index
+    }
+    dt2=cpu_time()-dt2;
+    printf("Tree Insert time (%d persons): %.3es\n",n_persons,dt2);
+    fprintf(file,"%f ",dt);
+  }
+   
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
   fprintf(file,"%f ",dt);
@@ -303,7 +331,9 @@ int main(int argc,char **argv)
     dt = cpu_time() - dt;
     printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
     fprintf(file,"%f ",dt);
+    fprintf(file2, "%d ", depth);
   }
+  fprintf(file2, "\n");
   // process the command line optional arguments
   for(int i = 3;i < argc;i++)
   {
