@@ -323,7 +323,10 @@ int main(int argc,char **argv)
 
       char *dados = argv[i+1];
       printf("List of persons:\n");
+      dt = cpu_time();
       list(search(dados,roots,main_index),0);
+      dt=cpu_time()-dt;
+       printf("Tree search time (index %d): %.3es\n",main_index,dt);
     }
     // place your own options here
   }
