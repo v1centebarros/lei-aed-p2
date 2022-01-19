@@ -231,7 +231,7 @@ int main(int argc,char **argv)
   for (int n_persons= 3; n_persons<=3; n_persons++)
   {
     printf("-----------------%d------------------\n", n_persons);
-    double dt; //tempo
+    double dt,dt2; //tempo
     // process the command line arguments
     if(argc < 2)
     {
@@ -278,10 +278,13 @@ int main(int argc,char **argv)
     //main_index-- corresponde ao tipo de dado
     for(int main_index = 0;main_index < 4;main_index++)
       roots[main_index] = NULL;
-    for(int i = 0;i < n_persons;i++){
-      for(int main_index = 0;main_index < 4;main_index++){
+    for(int main_index = 0;main_index < 4;main_index++){
+      dt2=cpu_time();
+      for(int i = 0;i < n_persons;i++){
         tree_insert(&persons[i], main_index, roots); // place your code here to insert &(persons[i]) in the tree with number main_index  
       } 
+      dt2=cpu_time()-dt2;
+      printf("%f ",dt2);
     }
     dt = cpu_time() - dt;
     //printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
