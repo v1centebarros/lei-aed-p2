@@ -327,7 +327,7 @@ int main(int argc,char **argv)
       
     }
     // process the command line optional arguments
-    for(int i = 3;i < argc;i++)
+    for(int i = 2;i < argc;i++)
     {
       if(strncmp(argv[i],"-list",5) == 0)
       { // list all (optional)
