@@ -106,7 +106,7 @@ root - arvore completa
 index - tipo de dados
 */
 int tree_depth( tree_node_t *root, int index ){
-  if (root==NULL){return -1;}//returna -1 pois o valor na raiz é 0 
+  if (root==NULL){return 0;}//returna -1 pois o valor na raiz é 0 
 
   int direito = tree_depth(root->right[index] , index);
   int esquerdo =tree_depth(root->left[index] , index);
@@ -212,15 +212,23 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
     return node_left;
   }
 }
+
+/*
+    Função que conta e retorna a quantidade de nós em uma árvore binária
+*/
+void quantidade_nos(tree_node_t *root, int index, int* nivel, int depth){
+    if(root == NULL) return;
+
+  nivel[depth]++;
+  quantidade_nos(root->right[index] , index, nivel,depth+1);
+  quantidade_nos(root->left[index] , index, nivel, depth+1);
+}
 //
 // main program
 //
 int main(int argc,char **argv)
 {
-  FILE *file=fopen("tempos.txt", "w"); 
-  FILE *file2=fopen("profundidade.txt", "w"); 
-
-  for (int n_persons= 3; n_persons<=10; n_persons++)
+  for (int n_persons= 3; n_persons<=4; n_persons++)
   {
     printf("-----------------%d------------------\n", n_persons);
     double dt; //tempo
@@ -277,8 +285,8 @@ int main(int argc,char **argv)
       }         
     }
     dt = cpu_time() - dt;
-    printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
-    fprintf(file,"%f ",dt);
+    //printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+    printf("%f ",dt);
     //search the tree
     for(int main_index = 0;main_index < 4;main_index++)
     {
@@ -293,8 +301,8 @@ int main(int argc,char **argv)
         }
       }
       dt = cpu_time() - dt;
-      printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
-      fprintf(file,"%f ",dt);
+      //printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
+      printf("%f ",dt);
     }
     // compute the largest tree depdth
     for(int main_index = 0;main_index < 4;main_index++)
@@ -302,11 +310,20 @@ int main(int argc,char **argv)
       dt = cpu_time();
       int depth = tree_depth(roots[main_index], main_index ); // place your code here to compute the depth of the tree with number main_index
       dt = cpu_time() - dt;
-      printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-      fprintf(file,"%f ",dt);
-      fprintf(file2, "%d ", depth);
+      int nos_nivel[depth]; 
+      for (int i=0; i<depth;i++){
+        nos_nivel[i]=0;
+      }
+      quantidade_nos(roots[main_index], main_index, nos_nivel,0);
+      //printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+      printf("%f ",dt);
+      printf("%d ", depth);
+      //printf("array de niveis: ");
+       for (int i=0; i<depth;i++){
+        printf("%d ", nos_nivel[i]);
+      }
+      
     }
-    fprintf(file2, "\n");
     // process the command line optional arguments
     for(int i = 3;i < argc;i++)
     {
@@ -334,12 +351,10 @@ int main(int argc,char **argv)
         tree_node_t* n = search(dados,roots,main_index);
         dt=cpu_time()-dt;
         list(n,0);
-        printf("Tree search time (index %d): %.3es\n",main_index,dt);
-      fprintf(file,"%f ",dt);
+        //printf("Tree search time (index %d): %.3es\n",main_index,dt);
+        printf("%f ",dt);
       }
     }
-    fprintf(file,"%f ",dt);
-    fprintf(file, "\n");
     printf("\n");
     // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
     free(persons);
