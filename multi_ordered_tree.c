@@ -278,15 +278,14 @@ int main(int argc,char **argv)
     //main_index-- corresponde ao tipo de dado
     for(int main_index = 0;main_index < 4;main_index++)
       roots[main_index] = NULL;
-    
     for(int i = 0;i < n_persons;i++){
       for(int main_index = 0;main_index < 4;main_index++){
         tree_insert(&persons[i], main_index, roots); // place your code here to insert &(persons[i]) in the tree with number main_index  
-      }         
+      } 
     }
     dt = cpu_time() - dt;
     //printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
-    printf("%f \n",dt);
+    printf("%f ",dt);
     //search the tree
     for(int main_index = 0;main_index < 4;main_index++)
     {
@@ -302,7 +301,7 @@ int main(int argc,char **argv)
       }
       dt = cpu_time() - dt;
       //printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
-      printf("%f \n",dt);
+      printf("%f ",dt);
     }
     // compute the largest tree depdth
     for(int main_index = 0;main_index < 4;main_index++)
@@ -316,13 +315,12 @@ int main(int argc,char **argv)
       }
       quantidade_nos(roots[main_index], main_index, nos_nivel,0);
       //printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-      printf("%f\n",dt);
-      printf("%d\n", depth);
+      printf("%f ",dt);
+      printf("%d ", depth);
       //printf("array de niveis: ");
        for (int i=0; i<depth;i++){
         printf("%d  ", nos_nivel[i]);
       }
-      printf("\n");
       
     }
     // process the command line optional arguments
@@ -353,7 +351,7 @@ int main(int argc,char **argv)
         dt=cpu_time()-dt;
         list(n,0);
         //printf("Tree search time (index %d): %.3es\n",main_index,dt);
-        printf("%f \n",dt);
+        printf("%f ",dt);
       }
     }
     printf("\n");
