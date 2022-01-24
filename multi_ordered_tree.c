@@ -201,6 +201,7 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
     } 
     return node;
   }
+
   if (node_left==NULL && node_right==NULL){ 
     return NULL;
   } else if (node_left == NULL){
@@ -216,40 +217,43 @@ tree_node_t* search( char *dados, tree_node_t **roots, int index){
 /*
     Função que conta e retorna a quantidade de nós em uma árvore binária
 */
-void quantidade_nos(tree_node_t *root, int index, int* nivel, int depth){
+void counter_node(tree_node_t *root, int index, int* nivel, int depth){
     if(root == NULL) return;
 
   nivel[depth]++;
-  quantidade_nos(root->right[index] , index, nivel,depth+1);
-  quantidade_nos(root->left[index] , index, nivel, depth+1);
+  counter_node(root->right[index] , index, nivel,depth+1);
+  counter_node(root->left[index] , index, nivel, depth+1);
 }
 //
 // main program
 //
 int main(int argc,char **argv)
 {
-  for (int student_number = 2021; student_number<= 2021; student_number++){ //alterar o student_number limite e a iteraçao que qeremos entre eles
-      for (int n_persons= 3; n_persons<= 10000000; n_persons=2*n_persons) //alterar o n_persons limite e a iteraçao que qeremos
+  //colocados para correr dados para ficheiros
+  //for (int student_number =1; student_number<= 10000; student_number++){ 
+      //for (int n_persons=1000; n_persons<=1000; n_persons=2*n_persons) 
     {
-      printf("%d %d ", student_number, n_persons); //colocar o numero mecanografico
+      //printf("%d %d ", student_number, n_persons); //imprime número mecanografico, e n_persons
       double dt,dt2; //tempo
+
       // process the command line arguments
-      if(argc < 1)
+      //if(argc < 1)
+      if(argc < 3)
       {
-        //fprintf(stderr,"Usage: %s student_number number_of_persons [options ...]\n",argv[0]);
+        fprintf(stderr,"Usage: %s student_number number_of_persons [options ...]\n",argv[0]);
         fprintf(stderr,"Recognized options:\n");
         fprintf(stderr,"  -list[N]              # list the tree contents, sorted by key index N (the default is index 0)\n");
-        fprintf(stderr,"  -search[N]    ----    # search the tree contents, sorted by key index N (the default is index 0)\n");
+        fprintf(stderr,"  -search[N]  ----      # search the tree contents, sorted by key index N (the default is index 0)\n");
         // place a description of your own options here
         return 1;
       }
-      //int student_number = atoi(argv[1]);
+      int student_number = atoi(argv[1]);
       if(student_number < 1 || student_number >= 1000000)
       {
         fprintf(stderr,"Bad student number (%d) --- must be an integer belonging to [1,1000000{\n",student_number);
         return 1;
       }
-      //int n_persons = atoi(argv[2]);
+      int n_persons = atoi(argv[2]);
       if(n_persons < 3 || n_persons > 10000000)
       {
         fprintf(stderr,"Bad number of persons (%d) --- must be an integer belonging to [3,10000000]\n",n_persons);
@@ -285,11 +289,11 @@ int main(int argc,char **argv)
           tree_insert(&persons[i], main_index, roots); // place your code here to insert &(persons[i]) in the tree with number main_index  
         } 
         dt2=cpu_time()-dt2;
-        printf("%f ",dt2);
+        //printf("%e ",dt2);
       }
       dt = cpu_time() - dt;
-      //printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
-      printf("%f ",dt);
+      printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+      //printf("%e ",dt);
       //search the tree
       for(int main_index = 0;main_index < 4;main_index++)
       {
@@ -304,8 +308,8 @@ int main(int argc,char **argv)
           }
         }
         dt = cpu_time() - dt;
-        //printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
-        printf("%f ",dt);
+        printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
+        //printf("%e ",dt);
       }
       // compute the largest tree depdth
       for(int main_index = 0;main_index < 4;main_index++)
@@ -313,22 +317,21 @@ int main(int argc,char **argv)
         dt = cpu_time();
         int depth = tree_depth(roots[main_index], main_index ); // place your code here to compute the depth of the tree with number main_index
         dt = cpu_time() - dt;
+        printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+        //printf("%e ",dt);
         int nos_nivel[depth]; 
         for (int i=0; i<depth;i++){
           nos_nivel[i]=0;
         }
-        quantidade_nos(roots[main_index], main_index, nos_nivel,0);
-        //printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-        printf("%f ",dt);
+        counter_node(roots[main_index], main_index, nos_nivel,0);
         //printf("%d ", depth);
         //printf("%d ", main_index);
         for (int i=0; i<depth;i++){
           //printf("%d ", nos_nivel[i]);
         }
-        //printf("\n");
       }
       // process the command line optional arguments
-      for(int i = 1;i < argc;i++)
+      for(int i = 3;i < argc;i++)
       {
         if(strncmp(argv[i],"-list",5) == 0)
         { // list all (optional)
@@ -350,18 +353,14 @@ int main(int argc,char **argv)
 
           char *dados = argv[i+1];
           printf("List of persons:\n");
-          dt = cpu_time();
           tree_node_t* n = search(dados,roots,main_index);
-          dt=cpu_time()-dt;
-          list(n,0);
-          //printf("Tree search time (index %d): %.3es\n",main_index,dt);
-          printf("%f ",dt);
+          list(n,0); //ordenar sempre de acordo com o nome
         }
       }
       printf("\n");
       // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
       free(persons);
-    }
+   // }
   }
   return 0;
 }
