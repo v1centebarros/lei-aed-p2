@@ -1,0 +1,31 @@
+n_persons=100
+
+            Tipo de dados |      minimo |      máximo |       média |      desvio 
+                     name |           9 |          21 |1.328430e+01 |1.580292e+00 
+                 Zip code |           9 |          22 |1.328340e+01 |1.600044e+00 
+         Telephone Number |           9 |          21 |1.330080e+01 |1.610645e+00 
+   Social Security Number |          10 |          21 |1.328450e+01 |1.564099e+00 
+
+n_persons=500
+
+            Tipo de dados |      minimo |      máximo |       média |      desvio 
+                     name |          15 |          28 |1.933040e+01 |1.845312e+00 
+                 Zip code |          15 |          29 |1.934570e+01 |1.821846e+00 
+         Telephone Number |          15 |          29 |1.935710e+01 |1.846110e+00 
+   Social Security Number |          15 |          28 |1.935750e+01 |1.833693e+00 
+
+n_persons=1000
+
+            Tipo de dados |      minimo |      máximo |       média |      desvio 
+                     name |          17 |          32 |2.203040e+01 |1.924642e+00 
+                 Zip code |          17 |          33 |2.204100e+01 |1.908162e+00 
+         Telephone Number |          17 |          33 |2.206280e+01 |1.933554e+00 
+   Social Security Number |          17 |          33 |2.206680e+01 |1.919090e+00 
+
+n_persons=10000
+
+            Tipo de dados |      minimo |      máximo |       média |      desvio 
+                     name |          26 |          45 |3.120590e+01 |2.080466e+00 
+                 Zip code |          26 |          42 |3.120590e+01 |2.097843e+00 
+         Telephone Number |          26 |          43 |3.124060e+01 |2.078351e+00 
+   Social Security Number |          26 |          44 |3.123390e+01 |2.097577e+00

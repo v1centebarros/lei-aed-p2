@@ -1,8 +1,8 @@
 clc
 clear all;
 
-tempos=load("tempos_103823.txt");
-%tempos=load("tempos_97877.txt");
+%tempos=load("tempos_103823.txt");
+tempos=load("tempos_097787.txt");
 %tempos=load("tempos_2021.txt");
 
 n_mec = tempos(:, 1);
