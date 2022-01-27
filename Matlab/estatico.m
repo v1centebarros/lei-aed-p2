@@ -8,13 +8,10 @@ dados=load("profundidade_10000.txt");
 depth=dados(1:end,3:end);
 
 figure(2)
-bar(unique(depth(:,1))-0.1,nonzeros(histcounts(depth(:,1))),0.1)
-hold on
-bar(unique(depth(:,2)),nonzeros(histcounts(depth(:,2))),0.1)
-hold on
-bar(unique(depth(:,3))+0.1,nonzeros(histcounts(depth(:,3))),0.1)
-hold on
-bar(unique(depth(:,4))+0.2,nonzeros(histcounts(depth(:,4))),0.1)
+bar(unique(depth(:,1))-0.1,nonzeros(histcounts(depth(:,1))),0.1);hold on
+bar(unique(depth(:,2)),nonzeros(histcounts(depth(:,2))),0.1);hold on
+bar(unique(depth(:,3))+0.1,nonzeros(histcounts(depth(:,3))),0.1);hold on
+bar(unique(depth(:,4))+0.2,nonzeros(histcounts(depth(:,4))),0.1);hold on
 title("Tree Depth")
 legend("Name", "Zip Code", "Telephone Number", "Social Security Number")
 xlabel("Profundidade")

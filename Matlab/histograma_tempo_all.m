@@ -15,6 +15,7 @@ histogram(time_creation,1000,"EdgeColor","none","FaceAlpha",1);hold on
 title("Tree Creation Time histogram for 10000 persons and 10000 experiments")
 % xlim([0.5 3* 10^-3])
 legend("All Indices")
+xlabel("Time")
 ylabel("Number of Occurrences");
 grid on
 hold off
@@ -27,8 +28,9 @@ histogram(time_insert(:,2),1000,"EdgeColor","none","FaceAlpha",1);hold on
 histogram(time_insert(:,3),1000,"EdgeColor","none","FaceAlpha",1);hold on
 histogram(time_insert(:,4),1000,"EdgeColor","none","FaceAlpha",1);hold on
 % xlim([0 0.7 * 10^-3])
-title("Tree Insert Time histogram for 10000 persons and 1000 experiments")
+title("Tree Insert Time histogram for 10000 persons and 10000 experiments")
 legend("Name", "Zip Code", "Telephone Number", "Social Security Number")
+xlabel("Time")
 ylabel("Number of Occurrences");
 set(gca,"GridLineStyle",":", "GridAlpha",1)
 grid on
@@ -58,6 +60,7 @@ xlim([0 1.7* 10^-3])
 set(gca,"GridLineStyle",":", "GridAlpha",1)
 title("Tree depth Time histogram for 10000 persons and 10000 experiments")
 legend("Name", "Zip Code","Social Security Number", "Telephone Number")
+xlabel("Time")
 ylabel("Number of Occurrences");
 grid on
 hold off;
